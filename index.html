@@ -13,21 +13,31 @@ const Products = () => {
 
   // Filter state
   const [category, setCategory] = useState("all");
+   const [price, setPrice] = useState("all");
 
   // Filter products
-  const filteredProducts = allData.filter((item) => {
-    if (category === "all") {
-      return true;
+   const filteredProducts = allData.filter((item) => {
+
+    if (category !== "all" && item.category !== category) {
+      return false;
     }
 
-    return item.category === category;
+    if (price === "under") {
+      return item.price < 100;
+    }
+
+    if (price === "over") {
+      return item.price > 100;
+    }
+
+    return true;
   });
 
   return (
     <div className="bg-purple py-20">
       <div className="w-330 m-auto">
 
-        
+        {/* FILTER */}
         <div className="flex gap-4 mb-10">
 
           <button onClick={() => setCategory("all")}>
@@ -52,7 +62,21 @@ const Products = () => {
 
         </div>
 
-      
+        <div className="flex gap-3.5 mb-3">
+          <button onClick={() => setPrice("all")} className="ml-175">
+            All Prices
+          </button>
+
+          <button onClick={() => setPrice("under")}>
+            Under 100
+          </button>
+
+          <button onClick={() => setPrice("over")}>
+            Over 100
+          </button>
+        </div>
+
+        {/* PRODUCTS */}
         <div className="flex flex-wrap justify-between gap-y-3">
 
           {filteredProducts.map((item) => (
